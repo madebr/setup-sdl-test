@@ -48,7 +48,7 @@ jobs:
         sudo apt-get install ${{ matrix.platform.apt-packages }}
     - name: Set up SDL
       id: sdl
-      uses: libsdl-org/setup-sdl@main
+      uses: madebr/setup-sdl@apt-get-no-install-recommends
       with:
         version: 3-head
         version-sdl-image: 3-head
@@ -98,7 +98,7 @@ jobs:
           ${{ matrix.platform.prepare }}
       - uses: actions/checkout@v4
       - name: Set up SDL
-        uses: libsdl-org/setup-sdl@main
+        uses: madebr/setup-sdl@apt-get-no-install-recommends
         with:
           version: sdl3-head
           version-sdl-image: 3-head
