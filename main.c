@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
     LOG_SDL_VERSION("SDL_ttf", SDL_TTF_VERSION, TTF_Version);
     LOG_SDL_VERSION("SDL_rtf", SDL_RTF_VERSION, RTF_Version);
 #ifdef WITH_SDLNET
-    LOG_SDL_VERSION("SDL_net", SDL_NET_VERSION, SDLNet_Version);
+    LOG_SDL_VERSION("SDL_net", SDL_NET_VERSION, NET_GetVersion);
 #endif
 
     /* Initialize test framework */
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
 
     TTF_Init();
 #ifdef WITH_SDLNET
-    SDLNet_Init();
+    NET_Init();
 #endif
 
     while (1) {
