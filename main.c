@@ -3,7 +3,6 @@
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_mixer/SDL_mixer.h>
 #include <SDL3_ttf/SDL_ttf.h>
-#include <SDL3_rtf/SDL_rtf.h>
 #ifdef WITH_SDLNET
 #include <SDL3_net/SDL_net.h>
 #endif
@@ -32,11 +31,10 @@ int main(int argc, char *argv[]) {
 
     LOG_SDL_VERSION("SDL", SDL_VERSION, SDL_GetVersion);
     LOG_SDL_VERSION("SDL_image", SDL_IMAGE_VERSION, IMG_Version);
-    LOG_SDL_VERSION("SDL_mixer", SDL_MIXER_VERSION, Mix_Version);
+    LOG_SDL_VERSION("SDL_mixer", SDL_MIXER_VERSION, MIX_Version);
     LOG_SDL_VERSION("SDL_ttf", SDL_TTF_VERSION, TTF_Version);
-    LOG_SDL_VERSION("SDL_rtf", SDL_RTF_VERSION, RTF_Version);
 #ifdef WITH_SDLNET
-    LOG_SDL_VERSION("SDL_net", SDL_NET_VERSION, NET_GetVersion);
+    LOG_SDL_VERSION("SDL_net", SDL_NET_VERSION, NET_Version);
 #endif
 
     /* Initialize test framework */
