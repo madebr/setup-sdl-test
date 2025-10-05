@@ -23,11 +23,10 @@
 
 int main(int argc, char *argv[]) {
     int i;
-    SDLTest_CommonState *state;
     SDL_Window *window;
     SDL_Renderer *renderer;
 
-    int vv = IMG_Version();
+    SDLTest_TrackAllocations();
 
     LOG_SDL_VERSION("SDL", SDL_VERSION, SDL_GetVersion);
     LOG_SDL_VERSION("SDL_image", SDL_IMAGE_VERSION, IMG_Version);
@@ -37,37 +36,17 @@ int main(int argc, char *argv[]) {
     LOG_SDL_VERSION("SDL_net", SDL_NET_VERSION, NET_Version);
 #endif
 
-    /* Initialize test framework */
-    state = SDLTest_CommonCreateState(argv, SDL_INIT_EVENTS | SDL_INIT_VIDEO);
-    if (state == NULL) {
+    if (argc != 1) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Usage: %s\n", argv[0]);
         return 1;
     }
 
-    for (i = 1; i < argc;) {
-        int consumed;
-
-        consumed = SDLTest_CommonArg(state, i);
-        if (consumed == 0) {
-        }
-        if (consumed < 0) {
-            static const char *options[] = {
-                    NULL
-            };
-            SDLTest_CommonLogUsage(state, argv[0], options);
-            return 1;
-        }
-        i += consumed;
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
+        return 1;
     }
-
-    state->num_windows = 1;
-
-    if (!SDLTest_CommonInit(state)) {
-        SDL_Log("SDL_Init failed (%s)", SDL_GetError());
-        return 2;
+    if (!SDL_CreateWindowAndRenderer("Hello", 640, 480, 0, &window, &renderer)) {
+        return 1;
     }
-
-    window = state->windows[0];
-    renderer = state->renderers[0];
 
     TTF_Init();
 #ifdef WITH_SDLNET
@@ -94,8 +73,13 @@ int main(int argc, char *argv[]) {
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+#ifdef WITH_SDLNET
+    NET_Quit();
+#endif
+    TTF_Quit();
+    SDL_Quit();
 
-    SDLTest_CommonQuit(state);
+    SDLTest_LogAllocations();
 
     return 0;
 }
